@@ -39,7 +39,7 @@ export function HomeHero() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/60 to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-28 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-36 sm:px-6 lg:px-8 lg:pb-16">
         <motion.span custom={0} variants={fade} initial="hidden" animate="show" className="inline-flex items-center gap-2 rounded-full border border-cream/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-cream backdrop-blur">
           <Star size={13} className="fill-gold text-gold" /> Trusted Bali Tour & Travel Since {site.founded}
         </motion.span>
@@ -66,7 +66,7 @@ export function HomeHero() {
         </motion.div>
 
         {/* Stats */}
-        <motion.div custom={4} variants={fade} initial="hidden" animate="show" className="mt-14 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-cream/15 bg-cream/10 sm:grid-cols-4">
+        <motion.div custom={4} variants={fade} initial="hidden" animate="show" className="mt-10 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-cream/15 bg-cream/10 sm:grid-cols-4">
           {homeStats.map((s) => (
             <div key={s.label} className="bg-ink/30 px-5 py-4 text-center backdrop-blur">
               <div className="font-display text-2xl font-bold text-gold sm:text-3xl">{s.value}</div>

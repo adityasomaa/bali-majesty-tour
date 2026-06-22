@@ -6,7 +6,14 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, SlidersHorizontal, MapPin, ArrowUpRight } from "lucide-react";
 import { categories, tourSlug } from "@/lib/site";
+import { Select } from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
+
+const sortOptions = [
+  { label: "Paling Populer", value: "popular" },
+  { label: "Harga Terendah", value: "low" },
+  { label: "Harga Tertinggi", value: "high" },
+];
 
 type FlatTour = {
   name: string;
@@ -76,19 +83,14 @@ export function PackageExplorer() {
               aria-label="Cari paket"
             />
           </div>
-          <div className="flex items-center gap-2 rounded-[0.85rem] border border-ink/10 bg-white px-3">
-            <SlidersHorizontal size={16} className="text-ink/40" />
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="field border-0 bg-transparent px-1 focus:shadow-none"
-              aria-label="Urutkan"
-            >
-              <option value="popular">Paling Populer</option>
-              <option value="low">Harga Terendah</option>
-              <option value="high">Harga Tertinggi</option>
-            </select>
-          </div>
+          <Select
+            value={sort}
+            onChange={setSort}
+            options={sortOptions}
+            ariaLabel="Urutkan"
+            className="lg:w-56"
+            leadingIcon={<SlidersHorizontal size={16} />}
+          />
         </div>
 
         {/* Category chips */}

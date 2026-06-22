@@ -3,6 +3,20 @@
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
 import { categories, waLink } from "@/lib/site";
+import { Select } from "@/components/ui/Select";
+
+const pkgOptions = [
+  { label: "— Pilih paket / layanan —", value: "" },
+  ...categories.map((c) => ({ label: c.title, value: c.title })),
+  { label: "Sewa Mobil", value: "Sewa Mobil" },
+  { label: "Sewa Bus", value: "Sewa Bus" },
+  { label: "Custom Itinerary", value: "Custom Itinerary" },
+];
+
+const paxOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"].map((n) => ({
+  label: `${n} orang`,
+  value: n,
+}));
 
 export function BookingForm() {
   const [sent, setSent] = useState(false);
@@ -75,23 +89,24 @@ export function BookingForm() {
         </div>
         <div className="sm:col-span-2">
           <label className="mb-1.5 block text-sm font-medium text-ink/80">Pilih Paket</label>
-          <select value={form.pkg} onChange={set("pkg")} className="field">
-            <option value="">— Pilih paket / layanan —</option>
-            {categories.map((c) => (
-              <option key={c.slug} value={c.title}>{c.title}</option>
-            ))}
-            <option value="Sewa Mobil">Sewa Mobil</option>
-            <option value="Sewa Bus">Sewa Bus</option>
-            <option value="Custom Itinerary">Custom Itinerary</option>
-          </select>
+          <Select
+            value={form.pkg}
+            onChange={(v) => setForm((f) => ({ ...f, pkg: v }))}
+            options={pkgOptions}
+            placeholder="— Pilih paket / layanan —"
+            ariaLabel="Pilih paket"
+            buttonClassName="py-3"
+          />
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-medium text-ink/80">Jumlah Peserta</label>
-          <select value={form.pax} onChange={set("pax")} className="field">
-            {["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"].map((n) => (
-              <option key={n} value={n}>{n} orang</option>
-            ))}
-          </select>
+          <Select
+            value={form.pax}
+            onChange={(v) => setForm((f) => ({ ...f, pax: v }))}
+            options={paxOptions}
+            ariaLabel="Jumlah peserta"
+            buttonClassName="py-3"
+          />
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-medium text-ink/80">Tanggal Tour</label>

@@ -7,8 +7,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, ArrowUpRight } from "lucide-react";
 import type { Category } from "@/lib/site";
 import { tourSlug } from "@/lib/site";
+import { Select } from "@/components/ui/Select";
 
 const parsePrice = (p: string) => Number(p.replace(/[^\d]/g, "")) || 0;
+
+const sortOptions = [
+  { label: "Urutkan", value: "default" },
+  { label: "Harga Terendah", value: "low" },
+  { label: "Harga Tertinggi", value: "high" },
+];
 
 export function CategoryListing({ category }: { category: Category }) {
   const [query, setQuery] = useState("");
@@ -41,11 +48,7 @@ export function CategoryListing({ category }: { category: Category }) {
               aria-label="Cari paket"
             />
           </div>
-          <select value={sort} onChange={(e) => setSort(e.target.value)} className="field w-auto py-2.5 text-sm" aria-label="Urutkan">
-            <option value="default">Urutkan</option>
-            <option value="low">Harga ↑</option>
-            <option value="high">Harga ↓</option>
-          </select>
+          <Select value={sort} onChange={setSort} options={sortOptions} ariaLabel="Urutkan" className="w-44" />
         </div>
       </div>
 

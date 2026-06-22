@@ -77,42 +77,28 @@ body.no-scroll {
 }
 
 /* ===========================================================================
-   Custom-styled native controls (no default browser look)
+   Custom-styled controls (no default browser look).
+   Declared in @layer components so Tailwind utilities (e.g. pl-11) still win.
    =========================================================================== */
-.field {
-  width: 100%;
-  border-radius: 0.85rem;
-  border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
-  background: #fff;
-  padding: 0.85rem 1rem;
-  font-size: 0.95rem;
-  color: var(--color-ink);
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  outline: none;
-}
-.field::placeholder {
-  color: color-mix(in srgb, var(--color-ink) 42%, transparent);
-}
-.field:focus {
-  border-color: var(--color-gold);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 24%, transparent);
-}
-
-/* fully custom select — strips the native chrome */
-select.field {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c8920a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.9rem center;
-  background-size: 1.1rem;
-  padding-right: 2.6rem;
-  cursor: pointer;
-}
-select.field option {
-  color: var(--color-ink);
-  background: #fff;
+@layer components {
+  .field {
+    width: 100%;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    background: #fff;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+  }
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-ink) 42%, transparent);
+  }
+  .field:focus {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 24%, transparent);
+  }
 }
 
 /* ===========================================================================

@@ -33,13 +33,19 @@ export function RouteTransition() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="flex flex-col items-center gap-4"
+            className="flex flex-col items-center gap-6"
           >
-            <Image src="/logo-mark.png" alt="" width={64} height={64} className="h-14 w-auto animate-float" />
-            <span className="h-6 w-6 animate-[mj-spin_0.8s_linear_infinite] rounded-full border-2 border-gold/30 border-t-gold" />
+            <Image
+              src="/logo-horizontal.png"
+              alt="Bali Majesty Tour"
+              width={420}
+              height={120}
+              className="h-auto w-56 max-w-[72vw] animate-float sm:w-72"
+            />
+            <span className="h-7 w-7 animate-[mj-spin_0.8s_linear_infinite] rounded-full border-2 border-gold/30 border-t-gold" />
           </motion.div>
         </motion.div>
       )}
