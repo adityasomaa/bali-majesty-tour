@@ -38,7 +38,7 @@ export function CookieConsent() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
-          className="fixed bottom-6 left-4 right-4 z-[130] mx-auto max-w-md rounded-2xl border border-ink/10 bg-cream/95 p-5 shadow-[var(--shadow-soft)] backdrop-blur-lg sm:bottom-8 sm:left-8 sm:right-auto"
+          className="fixed bottom-10 left-4 right-4 z-[130] mx-auto max-w-md rounded-2xl border border-ink/10 bg-cream/95 p-5 shadow-[var(--shadow-soft)] backdrop-blur-lg sm:bottom-12 sm:left-8 sm:right-auto"
         >
           <div className="flex items-start gap-3">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sand text-gold-dark">
