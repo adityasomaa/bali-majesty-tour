@@ -21,7 +21,7 @@ export default function Page() {
         tags={["All-in", "Mobil + Driver + BBM", "Armada Terawat"]}
         crumbs={[{ label: "Home", href: "/" }, { label: rentalCars.title }]}
       />
-      <VehicleListing vehicles={rentalCars.vehicles} label="Sewa Mobil All-in" />
+      <VehicleListing vehicles={rentalCars.vehicles} label="Sewa Mobil All-in" rentalSlug={rentalCars.slug} />
       <CtaBand />
     </>
   );

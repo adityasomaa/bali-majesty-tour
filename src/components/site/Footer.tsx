@@ -102,13 +102,9 @@ export function Footer() {
         <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-widest text-cream/40">Metode Pembayaran</p>
-            <div className="mt-3 flex items-center gap-3">
-              <span className="grid h-9 items-center rounded-md bg-white px-3">
-                <Image src="/images/Logo-BCA-PNG.png" alt="BCA" width={48} height={20} className="h-4 w-auto object-contain" />
-              </span>
-              <span className="grid h-9 items-center rounded-md bg-white px-3">
-                <Image src="/images/Bank_Mandiri_logo_2016.svg.png" alt="Bank Mandiri" width={70} height={20} className="h-4 w-auto object-contain" />
-              </span>
+            <div className="mt-3 flex items-center gap-5">
+              <Image src="/images/Logo-BCA-PNG.png" alt="BCA" width={64} height={24} className="h-5 w-auto object-contain opacity-70 brightness-0 invert" />
+              <Image src="/images/Bank_Mandiri_logo_2016.svg.png" alt="Bank Mandiri" width={92} height={24} className="h-5 w-auto object-contain opacity-70 brightness-0 invert" />
             </div>
           </div>
           <p className="max-w-md text-xs leading-relaxed text-cream/40">

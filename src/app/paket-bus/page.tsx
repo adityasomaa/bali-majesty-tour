@@ -21,7 +21,7 @@ export default function Page() {
         tags={["23–45 Seat", "Sopir Profesional", "Ekonomi & Executive"]}
         crumbs={[{ label: "Home", href: "/" }, { label: rentalBus.title }]}
       />
-      <VehicleListing vehicles={rentalBus.vehicles} label="Sewa Bus Pariwisata" />
+      <VehicleListing vehicles={rentalBus.vehicles} label="Sewa Bus Pariwisata" rentalSlug={rentalBus.slug} />
       <CtaBand />
     </>
   );

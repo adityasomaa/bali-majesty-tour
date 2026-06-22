@@ -10,35 +10,56 @@ type Props = {
   as?: React.ElementType;
 };
 
-/** Lightweight scroll-reveal using IntersectionObserver (no layout cost). */
+/**
+ * Lightweight scroll-reveal using IntersectionObserver, with safety fallbacks so
+ * a section can never stay invisible (reveals immediately if already on-screen,
+ * if IO is unavailable, or after a short timeout).
+ */
 export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Props) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    const show = () => el.classList.add("is-visible");
+
+    if (typeof IntersectionObserver === "undefined") {
+      show();
+      return;
+    }
+
+    // Already in (or near) the viewport at mount → reveal right away.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 1.1) {
+      show();
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            el.classList.add("is-visible");
+            show();
             io.unobserve(el);
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" }
     );
     io.observe(el);
-    return () => io.disconnect();
+
+    // Absolute fallback: never leave content hidden.
+    const fallback = window.setTimeout(show, 1600);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (
-    <Tag
-      ref={ref as never}
-      data-reveal=""
-      style={{ transitionDelay: `${delay}ms` }}
-      className={cn(className)}
-    >
+    <Tag ref={ref as never} data-reveal="" style={{ transitionDelay: `${delay}ms` }} className={cn(className)}>
       {children}
     </Tag>
   );

@@ -218,6 +218,52 @@ export function getCategory(slug: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Slugs & detail-page lookups.
+// ---------------------------------------------------------------------------
+export function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+export function tourSlug(t: Tour) {
+  return slugify(t.name);
+}
+
+export function getTour(categorySlug: string, itemSlug: string) {
+  const category = getCategory(categorySlug);
+  if (!category) return null;
+  const item = category.items.find((t) => tourSlug(t) === itemSlug);
+  if (!item) return null;
+  return { category, item };
+}
+
+export function tourParams(categorySlug: string) {
+  const c = getCategory(categorySlug);
+  return c ? c.items.map((t) => ({ item: tourSlug(t) })) : [];
+}
+
+export function vehicleSlug(v: Vehicle) {
+  return slugify(`${v.name} ${v.seats}`);
+}
+
+export function getVehicle(rentalSlug: string, itemSlug: string) {
+  const rental = rentalSlug === rentalBus.slug ? rentalBus : rentalCars;
+  const item = rental.vehicles.find((v) => vehicleSlug(v) === itemSlug);
+  if (!item) return null;
+  return { rental, item };
+}
+
+export function vehicleParams(rentalSlug: string) {
+  const rental = rentalSlug === rentalBus.slug ? rentalBus : rentalCars;
+  return rental.vehicles.map((v) => ({ item: vehicleSlug(v) }));
+}
+
+// ---------------------------------------------------------------------------
 // Vehicle rentals.
 // ---------------------------------------------------------------------------
 export type Vehicle = { name: string; seats: string; type: string; image: string };
