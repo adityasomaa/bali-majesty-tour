@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Bali Majesty Tour — design tokens (gold & ink luxury theme)
+   =========================================================================== */
+@theme {
+  --color-gold: #f2b819;
+  --color-gold-soft: #f7cd55;
+  --color-gold-dark: #c8920a;
+  --color-ink: #15130d;
+  --color-ink-soft: #2a261c;
+  --color-sand: #faf6ec;
+  --color-sand-deep: #f1e9d6;
+  --color-cream: #fffdf8;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-jakarta), ui-sans-serif, sans-serif;
+
+  --radius: 1rem;
+  --shadow-soft: 0 18px 50px -20px rgba(21, 19, 13, 0.35);
+  --shadow-gold: 0 18px 40px -16px rgba(242, 184, 25, 0.5);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  border-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* When a popup is open we lock body scroll on all viewports */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* ===========================================================================
+   Typography helpers
+   =========================================================================== */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.text-balance {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* ===========================================================================
+   Custom-styled native controls (no default browser look)
+   =========================================================================== */
+.field {
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+  background: #fff;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+}
+.field::placeholder {
+  color: color-mix(in srgb, var(--color-ink) 42%, transparent);
+}
+.field:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 24%, transparent);
+}
+
+/* fully custom select — strips the native chrome */
+select.field {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c8920a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.1rem;
+  padding-right: 2.6rem;
+  cursor: pointer;
+}
+select.field option {
+  color: var(--color-ink);
+  background: #fff;
+}
+
+/* ===========================================================================
+   Animations / keyframes
+   =========================================================================== */
+@keyframes mj-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes mj-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes mj-shimmer {
+  100% { transform: translateX(100%); }
+}
+@keyframes mj-marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes mj-pop-in {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-float { animation: mj-float 6s ease-in-out infinite; }
+.animate-marquee { animation: mj-marquee 28s linear infinite; }
+.animate-pop-in { animation: mj-pop-in 0.35s var(--ease-out-expo) both; }
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: mj-shimmer 1.6s infinite;
+}
+
+/* Scroll reveal base (driven by IntersectionObserver via Reveal component) */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .animate-float, .animate-marquee { animation: none !important; }
+}
+
+/* Hide scrollbar utility for horizontal scrollers */
+.no-bar::-webkit-scrollbar { display: none; }
+.no-bar { -ms-overflow-style: none; scrollbar-width: none; }
