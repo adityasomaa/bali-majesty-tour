@@ -67,9 +67,15 @@ export function VehicleListing({
                     </li>
                   ))}
                 </ul>
-                <span className="mt-5 inline-flex items-center justify-center gap-1.5 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-cream transition group-hover:bg-gold group-hover:text-ink">
-                  Lihat Detail <ArrowUpRight size={15} />
-                </span>
+                <div className="mt-auto flex items-end justify-between pt-5">
+                  <div>
+                    <span className="block text-xs text-ink/45">Mulai dari (Half Day)</span>
+                    <span className="font-display text-lg font-bold text-gold-dark">{v.halfDay}</span>
+                  </div>
+                  <span className="inline-flex items-center justify-center gap-1.5 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-cream transition group-hover:bg-gold group-hover:text-ink">
+                    Detail <ArrowUpRight size={15} />
+                  </span>
+                </div>
               </div>
             </Link>
           </motion.div>

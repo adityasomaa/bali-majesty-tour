@@ -248,7 +248,9 @@ export function tourParams(categorySlug: string) {
 }
 
 export function vehicleSlug(v: Vehicle) {
-  return slugify(`${v.name} ${v.seats}`);
+  // Vehicle names are unique within each rental list, so the name alone is a
+  // clean, stable slug (e.g. "big-bus-45-seat", "toyota-alphard").
+  return slugify(v.name);
 }
 
 export function getVehicle(rentalSlug: string, itemSlug: string) {
@@ -264,9 +266,59 @@ export function vehicleParams(rentalSlug: string) {
 }
 
 // ---------------------------------------------------------------------------
-// Vehicle rentals.
+// Vehicle rentals. Prices & details mirror the live /sewa-kendaraan/ pages.
 // ---------------------------------------------------------------------------
-export type Vehicle = { name: string; seats: string; type: string; image: string };
+export type Vehicle = {
+  name: string;
+  seats: string;
+  type: string;
+  image: string;
+  fullDay: string; // 12 jam
+  halfDay: string; // 6 jam
+  facilities: string[];
+  excluded: string[];
+};
+
+const CAR_FACILITIES = [
+  "Sopir ramah & profesional",
+  "Bahan bakar (BBM)",
+  "Sopir bantu ambil photo, video & sebagai lokal tour guide",
+];
+const CAR_EXCLUDED = ["Biaya parkir & toll", "Tiket masuk objek wisata / pengeluaran pribadi"];
+const vanFac = (cap: string) => [...CAR_FACILITIES, `Kapasitas ${cap} penumpang (tanpa bagasi)`];
+
+const BUS_FACILITIES = [
+  "Driver profesional",
+  "Bahan bakar (BBM)",
+  "Air Conditioner (AC)",
+  "LED TV",
+  "Cooler",
+  "Entertainment system",
+  "Seat belt",
+  "Electric socket",
+  "Tempat bagasi",
+  "Emergency exit",
+  "Asuransi Jasa Raharja",
+];
+const BUS_EXCLUDED = [
+  "Biaya parkir & toll",
+  "Tiket masuk objek wisata / pengeluaran pribadi",
+  "Tip sopir",
+];
+
+/** Standard rental terms (same across the live site). */
+export const rentalTerms = [
+  "Pemesanan dianggap confirm apabila sudah membayarkan deposit 50% dari total pemakaian dan mengirimkan detail itinerary.",
+  "Pembatalan 1 hari sebelum pemakaian dikenakan biaya 50%; pembatalan pada hari pemakaian dikenakan tarif penuh.",
+  "Pelunasan pembayaran paling lambat 1 hari sebelum pemakaian kendaraan.",
+  "Harga full day tour untuk rute searah, paling jauh sampai daerah Kintamani / Kebun Raya Bedugul.",
+  "Harga half day tour hanya berlaku untuk city tour area Denpasar, Kuta, dan Kuta Selatan / dinner.",
+  "Jika pemakaian lebih dari 12 jam, dikenakan extra hours 10% dari harga sewa per jamnya.",
+  "Rute Karangasem, Singaraja, dan Jembrana/Gilimanuk dikenakan biaya extra BBM.",
+  "Harga di atas tidak berlaku untuk acara meeting / wedding / event.",
+];
+export const bigBusNote =
+  "Khusus Bus 45 Seat tidak bisa masuk ke area Kuta, Legian, Seminyak & Canggu.";
 
 export const rentalCars = {
   slug: "sewa",
@@ -276,17 +328,17 @@ export const rentalCars = {
     "Jelajahi Bali tanpa ribet — sewa mobil Bali dengan sopir berpengalaman. Harga sudah termasuk mobil (sesuai pilihan), BBM, dan sopir yang merangkap sebagai pemandu Anda selama liburan di Bali. Armada terjaga kondisi dan kebersihannya.",
   hero: img("rama-krisna-tuban-14.jpg"),
   vehicles: [
-    { name: "All New Xenia", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-9.png") },
-    { name: "All New Toyota Avanza", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-10.png") },
-    { name: "Suzuki APV", seats: "7 Seat", type: "MPV", image: img("Travel-Tour-Agent-11.png") },
-    { name: "Mitsubishi Xpander", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-18.png") },
-    { name: "Toyota Innova Reborn", seats: "6 Seat", type: "Premium MPV", image: img("Travel-Tour-Agent-19.png") },
-    { name: "Toyota Fortuner", seats: "6 Seat", type: "SUV", image: img("Travel-Tour-Agent-20.png") },
-    { name: "Toyota Alphard", seats: "5 Seat", type: "Luxury", image: img("Travel-Tour-Agent-21.png") },
-    { name: "Hiace Commuter", seats: "14 Seat", type: "Van", image: img("Travel-Tour-Agent-22.png") },
-    { name: "Toyota Hiace Premio", seats: "12 Seat", type: "Luxury Van", image: img("Travel-Tour-Agent-24.png") },
-    { name: "Isuzu Elf Short", seats: "12 Seat", type: "Minibus", image: img("Travel-Tour-Agent-31.png") },
-    { name: "Isuzu Elf 19 Seater", seats: "19 Seat", type: "Minibus", image: img("Travel-Tour-Agent-32.png") },
+    { name: "All New Xenia", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-9.png"), fullDay: "Rp 600.000", halfDay: "Rp 475.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "All New Toyota Avanza", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-10.png"), fullDay: "Rp 600.000", halfDay: "Rp 475.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Suzuki APV", seats: "7 Seat", type: "MPV", image: img("Travel-Tour-Agent-11.png"), fullDay: "Rp 600.000", halfDay: "Rp 475.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Mitsubishi Xpander", seats: "6 Seat", type: "MPV", image: img("Travel-Tour-Agent-18.png"), fullDay: "Rp 750.000", halfDay: "Rp 600.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Toyota Innova Reborn", seats: "6 Seat", type: "Premium MPV", image: img("Travel-Tour-Agent-19.png"), fullDay: "Rp 875.000", halfDay: "Rp 700.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Toyota Fortuner", seats: "6 Seat", type: "SUV", image: img("Travel-Tour-Agent-20.png"), fullDay: "Rp 1.500.000", halfDay: "Rp 1.200.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Toyota Alphard", seats: "5 Seat", type: "Luxury", image: img("Travel-Tour-Agent-21.png"), fullDay: "Rp 2.500.000", halfDay: "Rp 2.000.000", facilities: CAR_FACILITIES, excluded: CAR_EXCLUDED },
+    { name: "Hiace Commuter", seats: "14 Seat", type: "Van", image: img("Travel-Tour-Agent-22.png"), fullDay: "Rp 1.100.000", halfDay: "Rp 850.000", facilities: vanFac("14"), excluded: CAR_EXCLUDED },
+    { name: "Toyota Hiace Premio", seats: "12 Seat", type: "Luxury Van", image: img("Travel-Tour-Agent-24.png"), fullDay: "Rp 1.500.000", halfDay: "Rp 1.000.000", facilities: vanFac("12-14"), excluded: CAR_EXCLUDED },
+    { name: "Isuzu Elf Short", seats: "12 Seat", type: "Minibus", image: img("Travel-Tour-Agent-31.png"), fullDay: "Rp 950.000", halfDay: "Rp 750.000", facilities: vanFac("12"), excluded: CAR_EXCLUDED },
+    { name: "Isuzu Elf 19 Seater", seats: "19 Seat", type: "Minibus", image: img("Travel-Tour-Agent-32.png"), fullDay: "Rp 1.400.000", halfDay: "Rp 1.100.000", facilities: vanFac("19"), excluded: CAR_EXCLUDED },
   ] as Vehicle[],
 };
 
@@ -298,13 +350,13 @@ export const rentalBus = {
     "Merencanakan perjalanan kelompok di Bali? Nikmati pengalaman tanpa repot dengan layanan sewa bus pariwisata berkualitas dan harga kompetitif. Dari fasilitas modern hingga sopir profesional, kami siap menjadikan perjalanan rombongan Anda lebih istimewa.",
   hero: img("Paket-Tour-Bali-Dengan-Bus-Pariwisata-ZHM-Hotels.jpg"),
   vehicles: [
-    { name: "Big Bus", seats: "45 Seat", type: "Big Bus", image: img("Travel-Tour-Agent-29.png") },
-    { name: "Medium Bus", seats: "35 Seat", type: "Medium Bus", image: img("Travel-Tour-Agent-27.png") },
-    { name: "Medium Bus", seats: "30 Seat", type: "Medium Bus", image: img("bus-30-seat.png") },
-    { name: "Medium Bus", seats: "23 Seat", type: "Medium Bus", image: img("Travel-Tour-Agent-30.png") },
-    { name: "Hiace Commuter", seats: "14 Seat", type: "Van", image: img("Travel-Tour-Agent-22.png") },
-    { name: "Toyota Hiace Premio", seats: "12 Seat", type: "Luxury Van", image: img("Travel-Tour-Agent-24.png") },
-    { name: "Isuzu Elf 19 Seater", seats: "19 Seat", type: "Minibus", image: img("Travel-Tour-Agent-32.png") },
+    { name: "Big Bus 45 Seat", seats: "45 Seat", type: "Big Bus", image: img("Travel-Tour-Agent-29.png"), fullDay: "Rp 2.700.000", halfDay: "Rp 2.100.000", facilities: [...BUS_FACILITIES, "Toilet"], excluded: BUS_EXCLUDED },
+    { name: "Medium Bus 35 Seat", seats: "35 Seat", type: "Medium Bus", image: img("Travel-Tour-Agent-27.png"), fullDay: "Rp 1.850.000", halfDay: "Rp 1.450.000", facilities: BUS_FACILITIES, excluded: BUS_EXCLUDED },
+    { name: "Medium Bus 30 Seat", seats: "30 Seat", type: "Medium Bus", image: img("bus-30-seat.png"), fullDay: "Rp 1.750.000", halfDay: "Rp 1.300.000", facilities: BUS_FACILITIES, excluded: BUS_EXCLUDED },
+    { name: "Medium Bus 23 Seat", seats: "23 Seat", type: "Medium Bus", image: img("Travel-Tour-Agent-30.png"), fullDay: "Rp 1.650.000", halfDay: "Rp 1.400.000", facilities: BUS_FACILITIES, excluded: BUS_EXCLUDED },
+    { name: "Hiace Commuter", seats: "14 Seat", type: "Van", image: img("Travel-Tour-Agent-22.png"), fullDay: "Rp 1.100.000", halfDay: "Rp 850.000", facilities: vanFac("14"), excluded: CAR_EXCLUDED },
+    { name: "Toyota Hiace Premio", seats: "12 Seat", type: "Luxury Van", image: img("Travel-Tour-Agent-24.png"), fullDay: "Rp 1.500.000", halfDay: "Rp 1.000.000", facilities: vanFac("12-14"), excluded: CAR_EXCLUDED },
+    { name: "Isuzu Elf 19 Seater", seats: "19 Seat", type: "Minibus", image: img("Travel-Tour-Agent-32.png"), fullDay: "Rp 1.400.000", halfDay: "Rp 1.100.000", facilities: vanFac("19"), excluded: CAR_EXCLUDED },
   ] as Vehicle[],
 };
 
