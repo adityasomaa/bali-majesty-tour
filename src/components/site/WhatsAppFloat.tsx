@@ -26,11 +26,11 @@ export function WhatsAppFloat() {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          className="group fixed bottom-6 right-5 z-[110] flex items-center gap-3 rounded-full bg-[#25D366] py-5 pl-5 pr-7 text-white shadow-[0_18px_42px_-8px_rgba(37,211,102,0.7)] sm:bottom-8 sm:right-8"
+          className="group fixed bottom-6 right-5 z-[110] flex items-center gap-3.5 rounded-full bg-[#25D366] py-6 pl-7 pr-9 text-white shadow-[0_20px_48px_-8px_rgba(37,211,102,0.75)] sm:bottom-9 sm:right-9"
         >
           <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366] opacity-30" />
-          <MessageCircle size={34} className="shrink-0" />
-          <span className="hidden text-lg font-bold sm:block">Chat Kami</span>
+          <MessageCircle size={42} className="shrink-0" strokeWidth={2.4} />
+          <span className="hidden text-xl font-bold sm:block">Chat Kami</span>
         </motion.a>
       )}
     </AnimatePresence>
